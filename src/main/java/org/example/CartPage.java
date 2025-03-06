@@ -11,6 +11,9 @@ public class CartPage {
     @FindBy(css = ".btn_medium.checkout_button") // Adjust the selector as needed
     private WebElement checkoutButton;
 
+    @FindBy(css = "#continue-shopping")
+    private WebElement continueShoppingButton;
+
     public CartPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -19,19 +22,10 @@ public class CartPage {
     public void clickCheckoutButton() {
         checkoutButton.click();
     }
-    /*@FindBy(id = "first-name")
-    private WebElement firstName;
+    public void clickContinueShoppingButton() {
+        continueShoppingButton.click();
+    }
 
-    @FindBy(id = "last-name")
-    private WebElement lastName;
-
-    @FindBy(id = "postal-code")
-    private WebElement postalCode;
-
-    @FindBy(css = ".btn_primary.cart_button")
-    private WebElement continueButton;
-
-    public void setFirstName(String name) { firstName.sendKeys(name); */
 
 
 
