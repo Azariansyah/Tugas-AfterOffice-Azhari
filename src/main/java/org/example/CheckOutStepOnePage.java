@@ -1,15 +1,12 @@
 package org.example;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.By;
 
-
-public class CheckOutStepOnePage {
-    WebDriver driver;
-
+public class CheckOutStepOnePage extends AbstractComponent {
     @FindBy(id = "first-name")
     private WebElement firstName;
 
@@ -22,11 +19,10 @@ public class CheckOutStepOnePage {
     @FindBy(css = ".btn_primary.cart_button")
     private WebElement continueButton;
 
-    public CheckOutStepOnePage (WebDriver driver) {
-        this.driver = driver;
+    public CheckOutStepOnePage(WebDriver driver) {
+        super(driver);
         PageFactory.initElements(driver, this);
     }
-
     public void setFirstName(String name) {
         firstName.sendKeys(name);
     }
@@ -44,6 +40,9 @@ public class CheckOutStepOnePage {
     }
 
     public String getErrorMessage() {
+        visibilityOfElementLocated(By.cssSelector("h3"));
         return driver.findElement(By.cssSelector("h3")).getText();
     }
+
+    // Metode lainnya tetap sama
 }

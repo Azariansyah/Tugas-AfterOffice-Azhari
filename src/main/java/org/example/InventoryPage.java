@@ -5,14 +5,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
-
 import java.util.List;
 
-
-public class InventoryPage {
-    WebDriver driver;
-
-    @FindBy(id = "add-to-cart-sauce-labs-backpack" ) // Adjust the selector as needed
+public class InventoryPage extends AbstractComponent {
+    @FindBy(id = "add-to-cart-sauce-labs-backpack")
     private WebElement addToCartBackPackButton;
 
     @FindBy(id = "add-to-cart-sauce-labs-bike-light") // Adjust the selector as needed
@@ -43,10 +39,9 @@ public class InventoryPage {
     private List<WebElement> productPrices;
 
     public InventoryPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(driver, this);
     }
-
     public void addToCartBackPack() {
         addToCartBackPackButton.click();
     }

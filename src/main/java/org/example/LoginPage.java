@@ -1,25 +1,11 @@
 package org.example;
 
 import org.openqa.selenium.WebDriver;
-
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import java.time.Duration;
 
-public class LoginPage {
-    private WebDriver driver;
-    private WebDriverWait wait;
-
-    // Constructor
-    public LoginPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(2));
-        PageFactory.initElements(driver, this);
-    }
-
-    // Locators
+public class LoginPage extends AbstractComponent {
     @FindBy(id = "user-name")
     private WebElement user;
 
@@ -29,7 +15,11 @@ public class LoginPage {
     @FindBy(id = "login-button")
     private WebElement loginBtn;
 
-    // Actions
+    public LoginPage(WebDriver driver) {
+        super(driver);
+        PageFactory.initElements(driver, this);
+    }
+
     public void setUsername(String username) {
         user.sendKeys(username);
     }
@@ -40,5 +30,6 @@ public class LoginPage {
 
     public void clickLogin() {
         loginBtn.click();
+        // Metode lainnya tetap sama
     }
 }
