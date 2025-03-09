@@ -2,6 +2,7 @@ package org.example;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -27,8 +28,10 @@ public class CompletePurchaseTestNGTest {
         loginPage.setPassword("secret_sauce");
         loginPage.clickLogin();
 
+
         // 2. Add item to cart
         InventoryPage inventoryPage = new InventoryPage(driver);
+        Assert.assertTrue(inventoryPage.getProductsTitle().isDisplayed(), "Products title not displayed after login.");
         inventoryPage.selectProductSort("az");
         inventoryPage.addToCartBackPack();
 
@@ -46,7 +49,13 @@ public class CompletePurchaseTestNGTest {
 
         // 5. Complete purchase
         CheckOutStepTwoPage checkOutStepTwoPage = new CheckOutStepTwoPage(driver);
+        Assert.assertEquals(checkOutStepTwoPage.getPageTitleElement().getText(), "Checkout: Overview", "Not on checkout overview page.");
+        Assert.assertTrue(checkOutStepTwoPage.getInventoryItem().isDisplayed(), "Item not present in checkout.");
         checkOutStepTwoPage.clickFinishButton();
+
+        CheckoutCompletePage checkoutCompletePage = new CheckoutCompletePage(driver);
+        Assert.assertEquals(checkoutCompletePage.getCompleteHeaderText(), "Thank you for your order!", "Order completion message not displayed.");
+
     }
 
     @AfterMethod

@@ -8,6 +8,9 @@ import org.openqa.selenium.support.ui.Select;
 import java.util.List;
 
 public class InventoryPage extends AbstractComponent {
+    @FindBy(css = "span[data-test='title']")
+    private WebElement productsTitle;
+
     @FindBy(id = "add-to-cart-sauce-labs-backpack")
     private WebElement addToCartBackPackButton;
 
@@ -37,6 +40,7 @@ public class InventoryPage extends AbstractComponent {
 
     @FindBy(css = ".inventory_item_price") // Selector untuk harga produk
     private List<WebElement> productPrices;
+
 
     public InventoryPage(WebDriver driver) {
         super(driver);
@@ -72,5 +76,8 @@ public class InventoryPage extends AbstractComponent {
     }
     public List<WebElement> getProductPriceElements() {
         return productPrices;
+    }
+    public WebElement getProductsTitle() {
+        return productsTitle;
     }
 }
