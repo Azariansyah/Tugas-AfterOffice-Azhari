@@ -44,5 +44,4 @@ public class CheckOutStepOnePage extends AbstractComponent {
         return driver.findElement(By.cssSelector("h3")).getText();
     }
 
-    // Metode lainnya tetap sama
 }

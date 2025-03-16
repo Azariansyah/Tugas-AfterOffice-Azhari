@@ -56,6 +56,21 @@ public class StepDefinitions extends BaseTest {
         Assert.assertTrue(inventoryPage.getProductsTitle().isDisplayed());
         inventoryPage.addToCartBackPack();
     }
+    @When("Buyer add multiple product to Cart")
+    public void multiple_product_to_cart() {
+        inventoryPage = new InventoryPage(driver);
+        Assert.assertTrue(inventoryPage.getProductsTitle().isDisplayed());
+        inventoryPage.addToCartBackPack();
+        inventoryPage.addToCartBikeLight();
+        inventoryPage.addToCartBoltTShirt();
+    }
+    @Then("Buyer return to product list page")
+    public void return_to_product_list_page() {
+        inventoryPage.openCart();
+        cartPage = new CartPage(driver);
+        cartPage.clickContinueShoppingButton();
+    }
+
 
     @When("Fill checkout information")
     public void fill_checkout_information() {

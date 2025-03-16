@@ -9,7 +9,7 @@ public class CartPage extends AbstractComponent {
     @FindBy(css = ".btn_medium.checkout_button")
     private WebElement checkoutButton;
 
-    @FindBy(css = "#continue-shopping")
+    @FindBy(xpath = "//button[@id='continue-shopping']")
     private WebElement continueShoppingButton;
 
     public CartPage(WebDriver driver) {
