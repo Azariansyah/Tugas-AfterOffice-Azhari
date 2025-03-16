@@ -20,18 +20,23 @@ public class BaseTest {
         FileInputStream fileInputStream = new FileInputStream("src/main/resources/GlobalData.properties");
 
         properties.load(fileInputStream);
-        String browserName = properties.getProperty("browser");
+        String browserName = properties.getProperty("browser").trim();
 
-        System.out.println("browserName" + browserName);
+        System.out.println("Browser Name: [" + browserName + "]");
 
-        if (browserName.equals("chrome")) {
+        if (browserName.equalsIgnoreCase("chrome")) { // Case-insensitive check
             // Driver chrome
             System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
             driver = new ChromeDriver();
-        }else{
+        } else if (browserName.equalsIgnoreCase("firefox")) { // Explicit Firefox check
+            try {
             // Driver firefox
-            System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver.exe");
+            System.setProperty("webdriver.gecko.driver", "C:\\Users\\Azhari Iriansyah\\IdeaProjects\\Tugas-AfterOffice-Azhari\\src\\main\\resources\\geckodriver.exe");
             driver = new FirefoxDriver();
+            } catch (Exception e) {
+                System.err.println("Failed to initialize FirefoxDriver: " + e.getMessage());
+                throw e; // Re-throw to indicate failure
+            }
         }
         driver.get("https://www.saucedemo.com/");
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));

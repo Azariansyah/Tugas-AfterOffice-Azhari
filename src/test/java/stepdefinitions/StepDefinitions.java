@@ -1,21 +1,17 @@
 package stepdefinitions;
 
 import components.BaseTest;
+import hook.Hooks;
 import org.example.*;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import io.cucumber.java.After;
-import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import org.testng.Assert;
 
-import java.io.IOException;
-import java.time.Duration;
 
 public class StepDefinitions extends BaseTest {
-    WebDriver driver;
+    WebDriver driver = Hooks.driver;
     LoginPage loginPage;
     InventoryPage inventoryPage;
     CartPage cartPage;
@@ -23,22 +19,22 @@ public class StepDefinitions extends BaseTest {
     CheckOutStepTwoPage checkOutStepTwoPage;
     CheckoutCompletePage checkoutCompletePage;
 
-    @Before
-    public void landingPage() throws IOException {
-        driver=initializeDriver();
-    }
+//    @Before
+//    public void landingPage() throws IOException {
+//        driver= Hooks.initializeDriver();
+//    }
 
-        @After
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
-    }
+//        @After
+//    public void tearDown() {
+//        if (driver != null) {
+//            driver.quit();
+//        }
+//    }
 
     // ========== BACKGROUND STEP ==========
     @Given("Buyer landing to ecommerce")
     public void buyer_landing_to_ecommerce() {
-        driver.get("https://www.saucedemo.com/");
+//        driver.get("https://www.saucedemo.com/");
     }
 
     // ========== REGULAR SCENARIO STEPS ==========

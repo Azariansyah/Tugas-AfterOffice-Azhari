@@ -22,8 +22,6 @@ Feature: Successfully Checkout the order
       When Buyer add product to Cart
       Then Buyer return to product list page
 
-
-
   Scenario Outline: Create Order Positive Case With Payload
     Given Buyer logged to website username "<username>" and password "<password>"
     When Buyer add product "<item>" to Cart
