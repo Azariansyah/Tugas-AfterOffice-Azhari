@@ -12,11 +12,12 @@ public class PageFactory {
     private CheckOutStepTwoPage checkOutStepTwoPage;
     private CheckoutCompletePage checkoutCompletePage;
 
-    public PageFactory(WebDriverProvider webDriverProvider) {
-        this.driver = webDriverProvider.getDriver();
+    // Gunakan WebDriver langsung, bukan via WebDriverProvider
+    public PageFactory(WebDriver driver) {
+        this.driver = driver;
     }
 
-    // Lazy initialization untuk semua halaman
+    // Lazy initialization untuk semua halaman (tetap sama)
     public LoginPage getLoginPage() {
         if (loginPage == null) {
             loginPage = new LoginPage(driver);

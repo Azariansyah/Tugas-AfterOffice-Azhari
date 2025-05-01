@@ -7,6 +7,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class CheckOutStepOnePage extends AbstractComponent {
+    @FindBy (css = "span[data-test='title']")
+    private WebElement checkoutTitle;
+
     @FindBy(id = "first-name")
     private WebElement firstName;
 
@@ -22,6 +25,8 @@ public class CheckOutStepOnePage extends AbstractComponent {
     public CheckOutStepOnePage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
+
+
     }
     public void setFirstName(String name) {
         firstName.sendKeys(name);
@@ -43,5 +48,10 @@ public class CheckOutStepOnePage extends AbstractComponent {
         visibilityOfElementLocated(By.cssSelector("h3"));
         return driver.findElement(By.cssSelector("h3")).getText();
     }
-
+public WebElement getCheckoutTitle () {
+        return checkoutTitle;
+    }
+    public void setCheckoutTitle(WebElement checkoutTitle) {
+        this.checkoutTitle = checkoutTitle;
+    }
 }

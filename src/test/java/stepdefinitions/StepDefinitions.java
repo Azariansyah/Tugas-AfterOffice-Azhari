@@ -1,46 +1,47 @@
 package stepdefinitions;
 
-import components.BaseTest;
-import hook.Hooks;
+import components.PageFactory;
 import org.example.*;
-import org.openqa.selenium.WebDriver;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.When;
-import io.cucumber.java.en.Then;
+import io.cucumber.java.en.*;
 import org.testng.Assert;
 
 
-public class StepDefinitions extends BaseTest {
-    WebDriver driver = Hooks.driver;
-    LoginPage loginPage;
-    InventoryPage inventoryPage;
-    CartPage cartPage;
-    CheckOutStepOnePage checkOutStepOnePage;
-    CheckOutStepTwoPage checkOutStepTwoPage;
-    CheckoutCompletePage checkoutCompletePage;
+import static hook.Hooks.driver;
 
-//    @Before
-//    public void landingPage() throws IOException {
-//        driver= Hooks.initializeDriver();
-//    }
+public class StepDefinitions {
+    private final PageFactory pageFactory;
+    private final LoginPage loginPage;
+    private final InventoryPage inventoryPage;
+    private final CartPage cartPage;
+    private final CheckOutStepOnePage checkOutStepOnePage;
+    private final CheckOutStepTwoPage checkOutStepTwoPage;
+    private final CheckoutCompletePage checkoutCompletePage;
 
-//        @After
-//    public void tearDown() {
-//        if (driver != null) {
-//            driver.quit();
-//        }
-//    }
-
-    // ========== BACKGROUND STEP ==========
-    @Given("Buyer landing to ecommerce")
-    public void buyer_landing_to_ecommerce() {
-//        driver.get("https://www.saucedemo.com/");
+    // Constructor: Initialize PageFactory dengan driver dari Hooks
+    public StepDefinitions() {
+        this.pageFactory = new PageFactory(driver);
+        this.loginPage = pageFactory.getLoginPage();
+        this.inventoryPage = pageFactory.getInventoryPage();
+        this.cartPage = pageFactory.getCartPage();
+        this.checkOutStepOnePage = pageFactory.getCheckOutStepOnePage();
+        this.checkOutStepTwoPage = pageFactory.getCheckOutStepTwoPage();
+        this.checkoutCompletePage = pageFactory.getCheckoutCompletePage();
     }
 
-    // ========== REGULAR SCENARIO STEPS ==========
+    @Given("Buyer landing to ecommerce")
+    public void navigateToEcommerce() {
+        driver.get("https://www.saucedemo.com/");
+    }
+
+    @Given("Buyer logged to website username {string} and password {string}")
+    public void loginWithCredentials(String username, String password) {
+        loginPage.setUsername(username);
+        loginPage.setPassword(password);
+        loginPage.clickLogin();
+    }
+
     @Given("Buyer logged to website")
     public void buyer_logged_to_website() {
-        loginPage = new LoginPage(driver);
         loginPage.setUsername("standard_user");
         loginPage.setPassword("secret_sauce");
         loginPage.clickLogin();
@@ -48,81 +49,62 @@ public class StepDefinitions extends BaseTest {
 
     @When("Buyer add product to Cart")
     public void buyer_add_product_to_cart() {
-        inventoryPage = new InventoryPage(driver);
         Assert.assertTrue(inventoryPage.getProductsTitle().isDisplayed());
         inventoryPage.addToCartBackPack();
+        inventoryPage.openCart();
+
     }
+
     @When("Buyer add multiple product to Cart")
-    public void multiple_product_to_cart() {
-        inventoryPage = new InventoryPage(driver);
-        Assert.assertTrue(inventoryPage.getProductsTitle().isDisplayed());
+    public void addMultipleProducts() {
         inventoryPage.addToCartBackPack();
         inventoryPage.addToCartBikeLight();
-        inventoryPage.addToCartBoltTShirt();
     }
+
+    @When("Buyer add product {string} to Cart")
+    public void buyer_add_specific_product_to_cart(String item) {
+        Assert.assertTrue(inventoryPage.getProductsTitle().isDisplayed());
+
+        switch(item) {
+            case "addToCartBackPack":
+                inventoryPage.addToCartBackPack();
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid product: " + item);
+        }
+    }
+
     @Then("Buyer return to product list page")
-    public void return_to_product_list_page() {
-        inventoryPage.openCart();
-        cartPage = new CartPage(driver);
+    public void returnToProductList() {
         cartPage.clickContinueShoppingButton();
     }
 
+    @And("Navigate to cart and checkout")
+    public void navigateToCheckout() {
+        inventoryPage.openCart();
+        cartPage.clickCheckoutButton();
+    }
 
     @When("Fill checkout information")
-    public void fill_checkout_information() {
-        checkOutStepOnePage = new CheckOutStepOnePage(driver);
+    public void fillCheckoutInfo() {
         checkOutStepOnePage.setFirstName("John");
         checkOutStepOnePage.setLastName("Doe");
         checkOutStepOnePage.setPostalCode("12345");
         checkOutStepOnePage.clickContinueButton();
     }
 
-    // ========== SCENARIO OUTLINE STEPS ==========
-    @Given("Buyer logged to website username {string} and password {string}")
-    public void buyer_logged_to_website_with_credentials(String username, String password) {
-        loginPage = new LoginPage(driver);
-        loginPage.setUsername(username);
-        loginPage.setPassword(password);
-        loginPage.clickLogin();
-
-    }
-        @When("Buyer add product {string} to Cart")
-        public void buyer_add_specific_product_to_cart(String item) {
-            inventoryPage = new InventoryPage(driver);
-            Assert.assertTrue(inventoryPage.getProductsTitle().isDisplayed());
-
-            switch(item) {
-                case "addToCartBackPack":
-                    inventoryPage.addToCartBackPack();
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid product: " + item);
-            }
-        }
-
     @When("Fill checkout information setFirstName {string} setLastName {string} PostalCode {string}")
-    public void fill_checkout_information_with_parameters(String firstName, String lastName, String postalCode) {
-        checkOutStepOnePage = new CheckOutStepOnePage(driver);
+    public void fillCheckoutInfoWithParams(String firstName, String lastName, String postalCode) {
         checkOutStepOnePage.setFirstName(firstName);
         checkOutStepOnePage.setLastName(lastName);
         checkOutStepOnePage.setPostalCode(postalCode);
         checkOutStepOnePage.clickContinueButton();
     }
-    // ========== COMMON STEPS ==========
-    @When("Navigate to cart and checkout")
-    public void navigate_to_cart_and_checkout() {
-        inventoryPage.openCart();
-        cartPage = new CartPage(driver);
-        cartPage.clickCheckoutButton();
-    }
 
     @Then("Buyer click complete purchase")
-    public void buyer_click_complete_purchase() {
-        checkOutStepTwoPage = new CheckOutStepTwoPage(driver);
+    public void completePurchase() {
         Assert.assertEquals(checkOutStepTwoPage.getPageTitleElement().getText(), "Checkout: Overview");
         checkOutStepTwoPage.clickFinishButton();
-
-        checkoutCompletePage = new CheckoutCompletePage(driver);
         Assert.assertEquals(checkoutCompletePage.getCompleteHeaderText(), "Thank you for your order!");
     }
 }
