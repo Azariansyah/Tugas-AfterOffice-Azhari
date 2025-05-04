@@ -71,7 +71,7 @@ Laporan test otomatis tersedia di:
 
 * HTML: target/cucumber-report.html
 * JSON: target/cucumber-report.json
-* XML: target/cucumber-report.xml test
+* XML: target/cucumber-report.xml
 
 <div align="center"> <sub>Created with ❤️ by Azhari iriansyah untuk Final Project Submission After Office Selenium Java 
 Batch 2</sub> </div>
