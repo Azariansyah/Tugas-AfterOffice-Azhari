@@ -29,7 +29,7 @@ public class InventoryPage extends AbstractComponent {
     @FindBy(id = "add-to-cart-test.allthethings()-t-shirt-(red)") // Adjust the selector as needed
     private WebElement addToCartRedTShirtButton;
 
-    @FindBy(css = ".shopping_cart_link") // Adjust the selector as needed
+    @FindBy(xpath = "//a[@class='shopping_cart_link']") // Adjust the selector as needed
     private WebElement cartIcon;
 
     @FindBy(className = "product_sort_container") // Adjust the selector as needed

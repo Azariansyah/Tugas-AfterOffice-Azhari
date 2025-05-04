@@ -6,7 +6,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class CartPage extends AbstractComponent {
-    @FindBy(css = ".btn_medium.checkout_button")
+    @FindBy(className = "title")
+    private WebElement cartTitle;
+
+    @FindBy(xpath = "//button[@id='checkout']")
     private WebElement checkoutButton;
 
     @FindBy(xpath = "//button[@id='continue-shopping']")
@@ -23,5 +26,8 @@ public class CartPage extends AbstractComponent {
 
     public void clickContinueShoppingButton() {
         continueShoppingButton.click();
+    }
+    public WebElement getCartTitle() {
+        return cartTitle;
     }
 }

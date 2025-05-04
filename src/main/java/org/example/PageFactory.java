@@ -1,6 +1,6 @@
-package components;
+package org.example;
 
-import org.example.*;
+import org.example.PageFactory;
 import org.openqa.selenium.WebDriver;
 
 public class PageFactory {

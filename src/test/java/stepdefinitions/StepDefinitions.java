@@ -1,14 +1,16 @@
 package stepdefinitions;
-
-import components.PageFactory;
+import org.example.PageFactory;
+import hook.Hooks;
 import org.example.*;
 import io.cucumber.java.en.*;
 import org.testng.Assert;
-
-
-import static hook.Hooks.driver;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 
 public class StepDefinitions {
+    private final WebDriver driver;
+    private final WebDriverWait wait;
     private final PageFactory pageFactory;
     private final LoginPage loginPage;
     private final InventoryPage inventoryPage;
@@ -19,13 +21,19 @@ public class StepDefinitions {
 
     // Constructor: Initialize PageFactory dengan driver dari Hooks
     public StepDefinitions() {
-        this.pageFactory = new PageFactory(driver);
+        this.driver = Hooks.getDriver();
+        if (this.driver == null) {
+            throw new IllegalStateException("WebDriver not initialized!");
+        }
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        this.pageFactory = new PageFactory (driver);
         this.loginPage = pageFactory.getLoginPage();
         this.inventoryPage = pageFactory.getInventoryPage();
         this.cartPage = pageFactory.getCartPage();
         this.checkOutStepOnePage = pageFactory.getCheckOutStepOnePage();
         this.checkOutStepTwoPage = pageFactory.getCheckOutStepTwoPage();
         this.checkoutCompletePage = pageFactory.getCheckoutCompletePage();
+
     }
 
     @Given("Buyer landing to ecommerce")
@@ -52,13 +60,13 @@ public class StepDefinitions {
         Assert.assertTrue(inventoryPage.getProductsTitle().isDisplayed());
         inventoryPage.addToCartBackPack();
         inventoryPage.openCart();
-
     }
 
     @When("Buyer add multiple product to Cart")
     public void addMultipleProducts() {
         inventoryPage.addToCartBackPack();
         inventoryPage.addToCartBikeLight();
+        inventoryPage.openCart();
     }
 
     @When("Buyer add product {string} to Cart")
@@ -72,6 +80,7 @@ public class StepDefinitions {
             default:
                 throw new IllegalArgumentException("Invalid product: " + item);
         }
+        inventoryPage.openCart();
     }
 
     @Then("Buyer return to product list page")
@@ -79,9 +88,9 @@ public class StepDefinitions {
         cartPage.clickContinueShoppingButton();
     }
 
-    @And("Navigate to cart and checkout")
+    @When("Navigate to cart and checkout")
     public void navigateToCheckout() {
-        inventoryPage.openCart();
+        Assert.assertTrue(cartPage.getCartTitle().isDisplayed());
         cartPage.clickCheckoutButton();
     }
 
